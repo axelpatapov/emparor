@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with {{ recipient.username }}</title>
+
+    #Använder Polling
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Chat with {{ recipient.username }}</h1>
+
+    <div id="messages">
+        {% for message in messages %}
+            <p>
+                {% if message.sender_id == current_user.id %}
+                    <strong>You:</strong> {{ message.content }}
+                {% else %}
+                    <strong>{{ recipient.username }}:</strong> {{ message.content }}
+                {% endif %}
+            </p>
+        {% endfor %}
+    </div>
+
+    <form method="POST">
+        <textarea name="message" placeholder="Type your message..."></textarea>
+        <button type="submit">Send</button>
+    </form>
+
+    <!-- Explanation:
+    This script uses AJAX (via jQuery) to periodically fetch new messages every 5 seconds.
+    The fetchMessages function makes a GET request to the /chat/<recipient_id> route, 
+    retrieves the updated messages, and updates the chat without reloading the page. -->
+    
+    <script>
+        // Function to fetch new messages med Polling och Java
+        function fetchMessages() {
+            $.get("/chat/{{ recipient.id }}", function(data) {
+                $("#messages").html($(data).find("#messages").html());
+            });
+        }
+
+        // Poll for new messages every 5 seconds, 5000ms
+        setInterval(fetchMessages, 5000);
+    </script>
+
+</body>
+</html>

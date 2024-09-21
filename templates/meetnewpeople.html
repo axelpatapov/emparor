@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meet New People</title>
+</head>
+<body>
+    <h1>Meet New People</h1>
+    {% for user in users %}
+    <div>
+        <h3>{{ user.username }}</h3>
+        <p>{{ user.bio }}</p>
+        <a href="{{ url_for('profile', user_id=user.id) }}">View Profile</a>
+    </div>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }}'s Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}</h1>
+    <p>{{ user.bio }}</p>
+    <h2>Media:</h2>
+    {% if user.media %}
+        <img src="{{ url_for('static', filename='uploads/' + user.media) }}" alt="User Media" width="200">
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.media.label }} {{ form.media() }}<br>
+        {{ form.submit() }}
+    </form>
+</body>
+</html>
